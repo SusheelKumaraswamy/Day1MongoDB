@@ -6,7 +6,7 @@ db.product.find({product_price:{$gt:500}}).limit(4);//4
 
 db.product.find({},{product_name:1,product_material:1});//5
 
-db.product.find({id:{$eq:10}});//notworking//6
+db.product.find({id:"10");//notworking//6
 
 db.product.find({},{product_name:1,product_material:1});//7
 
@@ -16,4 +16,19 @@ db.product.find({product_material:"Soft"});//8
 
 db.product.find({$and: [{product_color:"indigo"},{product_price:492}]}});//9
 
-db.product.remove({})//10
+//10
+db.product.aggregate([
+    {
+        $group:{
+            _id:'$product_price',
+            NoofDocuments:{$sum:1}
+        }
+    }]);
+    
+db.product.aggregate([
+    {
+        $group:{
+            _id:'$product_price',
+            maxprice:{$sum: 1}
+        }
+    }]);
